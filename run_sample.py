@@ -7,6 +7,8 @@ templite = Templite('''
      {% endfor %}
      {% if test %}
         <p>Test</p>
+        {% elif aaa %}
+        <p>aaa</p>
     {% else %}
         <p>else</p>
      {% endif %}
@@ -16,6 +18,7 @@ templite = Templite('''
 text = templite.render({
     'name': "hao",
     'topics': ['Python', 'Javascript', 'C++'],
-    'test':''
+    'test':'False',
+    'aaa':'aaa'
 })
 print(text)
