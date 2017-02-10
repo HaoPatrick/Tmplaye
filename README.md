@@ -6,7 +6,7 @@ SAWTE
 
 Simple And Weak Template Engine
 
-```
+```Python
 from template_engine import Templite
 
 templite = Templite('''
@@ -42,7 +42,7 @@ print(text)
 Output:
 
 
-```
+```HTML
          <h1>Hello HAO!</h1>
 
          <p>You are interested in Python.</p>
