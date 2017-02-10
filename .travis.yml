@@ -2,4 +2,4 @@ languange: python
 python:
     - "3.5"
     - "3.6"
-script: python -m unittest test_templite.py
+script: python3 -m unittest test_templite.py
