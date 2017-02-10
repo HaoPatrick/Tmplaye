@@ -1,4 +1,4 @@
-SAWTE
+Tmplaye
 ======
 
 [![Build Status](https://travis-ci.org/HaoPatrick/template_engine.svg?branch=master)](https://travis-ci.org/HaoPatrick/template_engine)
@@ -7,9 +7,9 @@ SAWTE
 Simple And Weak Template Engine
 
 ```Python
-from template_engine import Templite
+from Tmplaye import Tmplaye
 
-templite = Templite('''
+templite = Tmplaye('''
 	 
 	 <h1>Hello {{name|upper}}!</h1>
      

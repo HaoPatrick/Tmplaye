@@ -1,7 +1,7 @@
 import re
 
 
-class TempliteSyntaxError(ValueError):
+class TmplayeSyntaxError(ValueError):
     pass
 
 
@@ -47,7 +47,7 @@ class CodeBuilder(object):
         return global_namespace
 
 
-class Templite(object):
+class Tmplaye(object):
 
     def __init__(self, text, *contexts):
         """Construct a Templite with the given `text`.
@@ -165,7 +165,7 @@ class Templite(object):
 
     def _syntax_error(self, msg, thing):
         """Raise a syntax error using `msg`, and showing `thing`."""
-        raise TempliteSyntaxError("%s: %r" % (msg, thing))
+        raise TmplayeSyntaxError("%s: %r" % (msg, thing))
 
     def _variable(self, name, vars_set):
         """Track that `name` is used as variable.

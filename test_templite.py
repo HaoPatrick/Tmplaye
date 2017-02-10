@@ -1,6 +1,6 @@
 from unittest import TestCase
 import re
-from template_engine import Templite, TempliteSyntaxError
+from Tmplaye import Tmplaye, TmplayeSyntaxError
 
 
 # pylint: disable=C0103,C0111,W0612
@@ -16,7 +16,7 @@ class AnyOldObject(object):
             setattr(self, n, v)
 
 
-class TempliteTest(TestCase):
+class TmplayeTest(TestCase):
     """Tests for Templite"""
 
     def try_render(self, text, ctx=None, result=None):
@@ -24,18 +24,18 @@ class TempliteTest(TestCase):
         Result defaults to None so we can shorten the calls where we expect
         an exception and never get to the result comparison
         """
-        actual = Templite(text).render(ctx or {})
+        actual = Tmplaye(text).render(ctx or {})
         if result:
             self.assertEqual(actual, result)
 
     def assertSynErr(self, msg):
         pat = "^" + re.escape(msg) + "$"
-        return self.assertRaisesRegex(TempliteSyntaxError, pat)
+        return self.assertRaisesRegex(TmplayeSyntaxError, pat)
 
     def test_passthrough(self):
-        self.assertEqual(Templite("Hello").render(), "Hello")
+        self.assertEqual(Tmplaye("Hello").render(), "Hello")
         self.assertEqual(
-            Templite("Hello, 20% fun time!").render(),
+            Tmplaye("Hello, 20% fun time!").render(),
             "Hello, 20% fun time!"
         )
 
@@ -59,7 +59,7 @@ class TempliteTest(TestCase):
             'upper': lambda x: x.upper(),
             'punct': '!',
         }
-        template = Templite('This is {{name|upper}}{{punct}}', globs)
+        template = Tmplaye('This is {{name|upper}}{{punct}}', globs)
         self.assertEqual(template.render({'name': 'Ned'}), "This is NED!")
         self.assertEqual(template.render({'name': 'Ben'}), "This is BEN!")
 
