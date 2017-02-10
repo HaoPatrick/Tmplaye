@@ -108,7 +108,7 @@ class Templite(object):
                 elif words[0].startswith("end"):
                     if len(words) != 1:
                         self._syntax_error("Don't understand end", token)
-                    end_what = words[0][:3]
+                    end_what = words[0][3:]
                     if not ops_stack:
                         self._syntax_error("Too many ends", token)
                     start_what = ops_stack.pop()
