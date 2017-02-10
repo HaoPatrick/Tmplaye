@@ -17,7 +17,7 @@ class CodeBuilder(object):
         Indentation and newline will be added for you,
         don't provide them.
         """
-        self.code.extend([" " * self.indent_level, "\n"])
+        self.code.extend([" " * self.indent_level, line, "\n"])
 
     INDENT_STEP = 4
 
@@ -61,7 +61,7 @@ class Templite(object):
         self.loop_vars = set()
 
         code = CodeBuilder()
-        code.add_line("def render_function(context, do_dots)")
+        code.add_line("def render_function(context, do_dots):")
         code.indent()
         vars_code = code.add_section()
         code.add_line("result = []")
