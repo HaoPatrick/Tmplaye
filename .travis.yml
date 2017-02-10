@@ -7,7 +7,7 @@ install:
     - pip install codecov
 
 script:
-    - coverage run --source='.' -m unittest test_templite.py
+    - coverage run --source='.' -m unittest test_tmplaye.py
     - coverage report
 
 after_success:
