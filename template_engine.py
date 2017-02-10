@@ -94,6 +94,14 @@ class Templite(object):
                     ops_stack.append("if")
                     code.add_line("if %s:" % self._expr_code(words[1]))
                     code.indent()
+                elif words[0] == 'else':
+                    if len(words) != 1:
+                        self._syntax_error("Don't understand else", token)
+                    if ops_stack[-1] not in ['if', 'elif']:
+                        self._syntax_error("Don't understand else", token)
+                    code.dedent()
+                    code.add_line("else:")
+                    code.indent()
                 elif words[0] == 'for':
                     if len(words) != 4 or words[2] != 'in':
                         self._syntax_error("Don't understand for", token)

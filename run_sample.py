@@ -5,11 +5,17 @@ templite = Templite('''
      {% for topic in topics %}
          <p>You are interested in {{topic}}.</p>
      {% endfor %}
+     {% if test %}
+        <p>Test</p>
+    {% else %}
+        <p>else</p>
+     {% endif %}
      ''',
-                    {'upper': str.upper},
-                    )
+                    {'upper': str.upper},)
+
 text = templite.render({
     'name': "hao",
-    'topics': ['Python', 'Javascript', 'C++']
+    'topics': ['Python', 'Javascript', 'C++'],
+    'test':''
 })
 print(text)
