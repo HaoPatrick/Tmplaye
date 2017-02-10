@@ -18,6 +18,10 @@ templite = Tmplaye('''
      {% endfor %}
      
 	 {% include "more.html" %}
+	 
+	 {% for k, v in dict_content.items() %}
+	    <p> {{k}}, {{v}}</p>
+	 {% endfor %}
 
 	 {% if test %}
         <p>Test</p>
@@ -34,7 +38,8 @@ text = templite.render({
     'name': "hao",
     'topics': ['Python', 'Javascript', 'C++'],
     'test': 'False',
-    'aaa': 'aaa'
+    'aaa': 'aaa',
+    'dict_content':{"Hao":"1","HLH":"2"}
 })
 
 print(text)
@@ -54,6 +59,10 @@ Output:
          <p>You are interested in C++.</p>
 
 		 Something from more.
+		 
+		 <p>Hao, 1</p>
+		 
+		 <p>HLH, 2</p>
 
         <p>Test</p>
 

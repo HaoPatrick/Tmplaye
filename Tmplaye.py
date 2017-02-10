@@ -1,5 +1,6 @@
 import re
 
+
 class TmplayeSyntaxError(ValueError):
     pass
 
@@ -47,7 +48,6 @@ class CodeBuilder(object):
 
 
 class Tmplaye(object):
-
     def __init__(self, text, *contexts):
         """Construct a Templite with the given `text`.
         `contexts` are dictionaries of values to use for future renderings.
@@ -68,6 +68,7 @@ class Tmplaye(object):
         code.add_line("extend_result = result.extend")
         code.add_line("to_str = str")
         buffered = []
+
         def flush_output():
             """Force `buffered` to the code builder."""
             if len(buffered) == 1:
@@ -110,15 +111,52 @@ class Tmplaye(object):
                     code.add_line("elif %s:" % self._expr_code(words[1]))
                     code.indent()
                 elif words[0] == 'for':
-                    if len(words) != 4 or words[2] != 'in':
+                    if len(words) > 6 or len(words) < 4 or words[-2] != 'in':
                         self._syntax_error("Don't understand for", token)
                     ops_stack.append("for")
-                    self._variable(words[1], self.loop_vars)
-                    code.add_line(
-                        "for c_%s in %s:" % (
-                            words[1], self._expr_code(words[3])
+                    if len(words) == 4 and ',' not in words[1]:
+                        self._variable(words[1], self.loop_vars)
+                        code.add_line(
+                            "for c_%s in %s:" % (
+                                words[1], self._expr_code(words[-1])
+                            )
                         )
-                    )
+                    elif len(words) == 4 and ',' in words[1]:
+                        key, value = words[1].split(',')
+                        self._variable(key, self.loop_vars)
+                        self._variable(value, self.loop_vars)
+                        code.add_line(
+                            "for c_%s, c_%s in %s:" % (
+                                key, value, self._expr_code(words[-1])
+                            )
+                        )
+                    elif len(words) == 5 and words[1][-1] == ',':
+                        self._variable(words[1][:-1], self.loop_vars)
+                        self._variable(words[2], self.loop_vars)
+                        code.add_line(
+                            "for c_%s, c_%s in %s:" % (
+                                words[1][:-1], words[2], self._expr_code(words[-1])
+                            )
+                        )
+                    elif len(words) == 5 and words[2][0] == ',':
+                        self._variable(words[1], self.loop_vars)
+                        self._variable(words[2][1:], self.loop_vars)
+                        code.add_line(
+                            "for c_%s, c_%s in %s:" % (
+                                words[1], words[2][1:], self._expr_code(words[-1])
+                            )
+                        )
+                    elif len(words) == 6:
+                        self._variable(words[1], self.loop_vars)
+                        self._variable(words[3], self.loop_vars)
+                        code.add_line(
+                            "for c_%s, c_%s in %s:" % (
+                                words[1], words[3], self._expr_code(words[-1])
+                            )
+                        )
+                    else:
+                        self._syntax_error("Don't understand for", token)
+
                     code.indent()
                 elif words[0] == 'include':  # pragma: no cover
                     if len(words) != 2:
@@ -163,8 +201,11 @@ class Tmplaye(object):
         elif "." in expr:
             dots = expr.split(".")
             code = self._expr_code(dots[0])
-            args = ", ".join(repr(d) for d in dots[1:])
-            code = "do_dots(%s, %s)" % (code, args)
+            if len(dots) == 2 and dots[-1] == "items()":
+                code = str(code) + ".items()"
+            else:
+                args = ", ".join(repr(d) for d in dots[1:])
+                code = "do_dots(%s, %s)" % (code, args)
         else:
             self._variable(expr, self.all_vars)
             code = "c_%s" % expr
