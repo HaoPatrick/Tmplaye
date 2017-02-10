@@ -1,5 +1,6 @@
 languange: python
 python:
-    - "3.5"
-    - "3.6"
+    - 3.5
+    - 3.6
+	- pypy3
 script: python3 -m unittest test_templite.py
