@@ -1,5 +1,7 @@
-languange: python
+
+language: python
 python:
-    - 3.5
-	- 3.6
+    - 2.6
+    - 2.7
+
 script: pytest
