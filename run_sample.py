@@ -18,7 +18,7 @@ templite = Templite('''
 text = templite.render({
     'name': "hao",
     'topics': ['Python', 'Javascript', 'C++'],
-    'test':'False',
-    'aaa':'aaa'
+    'test': 'False',
+    'aaa': 'aaa'
 })
 print(text)
