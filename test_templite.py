@@ -159,6 +159,33 @@ class TempliteTest(TestCase):
             {'ned': 1, 'ben': 1},
             "Hi, NEDBEN!"
         )
+    def test_if_else(self):
+        self.try_render(
+            "Hi, {% if ned %}NED{% else %}BEN{% endif %}!",
+            {'ned': 1, 'ben': 0},
+            "Hi, NED!"
+        )
+        self.try_render(
+            "Hi, {% if ned %}NED{% else %}BEN{% endif %}!",
+            {'ned': 0, 'ben': 1},
+            "Hi, BEN!"
+        )
+    def test_if_elif_else(self):
+        self.try_render(
+            "Hi, {% if ned %}NED{% elif ben %}BEN{%else%}HAO{% endif %}!",
+            {'ned': 1, 'ben': 0},
+            "Hi, NED!"
+        )
+        self.try_render(
+            "Hi, {% if ned %}NED{% elif ben %}BEN{%else%}HAO{% endif %}!",
+            {'ned': 0, 'ben': 0},
+            "Hi, HAO!"
+        )
+        self.try_render(
+            "Hi, {% if ned %}NED{% elif ben %}BEN{%else%}HAO{% endif %}!",
+            {'ned': 0, 'ben': 1},
+            "Hi, BEN!"
+        )
 
     def test_complex_if(self):
         class Complex(AnyOldObject):
@@ -231,6 +258,17 @@ class TempliteTest(TestCase):
             self.try_render("Buh? {% if %}hi!{% endif %}")
         with self.assertSynErr("Don't understand if: '{% if this or that %}'"):
             self.try_render("Buh? {% if this or that %}hi!{% endif %}")
+    def test_malformed_elif(self):
+        with self.assertSynErr("Don't understand elif: '{% elif %}'"):
+            self.try_render("Buh? {% if a %}hi!{% elif %}a{%endif%}")
+        with self.assertSynErr("Don't understand elif: '{% elif a %}'"):
+            self.try_render("Buh? hi!{% elif a %}a{%endif%}")
+
+    def test_malformed_else(self):
+        with self.assertSynErr("Don't understand else: '{% else x %}'"):
+            self.try_render("Buh? {% if x %}hi!{% else x %}as{% endif %}")
+        with self.assertSynErr("Don't understand else: '{% else %}'"):
+            self.try_render("Buh? hi!{% else %}as")
 
     def test_malformed_for(self):
         with self.assertSynErr("Don't understand for: '{% for %}'"):

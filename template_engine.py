@@ -97,7 +97,7 @@ class Templite(object):
                 elif words[0] == 'else':
                     if len(words) != 1:
                         self._syntax_error("Don't understand else", token)
-                    if ops_stack[-1] not in ['if', 'elif']:
+                    if not ops_stack or ops_stack[-1] not in ['if', 'elif']:
                         self._syntax_error("Don't understand else", token)
                     code.dedent()
                     code.add_line("else:")
@@ -105,8 +105,8 @@ class Templite(object):
                 elif words[0] == 'elif':
                     if len(words) != 2:
                         self._syntax_error("Don't understand elif", token)
-                    if ops_stack[-1] not in ['if', 'elif']:
-                        self._syntax_error("Don't understand else", token)
+                    if not ops_stack or ops_stack[-1] not in ['if', 'elif']:
+                        self._syntax_error("Don't understand elif", token)
                     code.dedent()
                     code.add_line("elif %s:" % self._expr_code(words[1]))
                     code.indent()
