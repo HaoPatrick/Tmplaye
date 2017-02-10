@@ -3,3 +3,5 @@
 __*
 .cache
 *.pyc
+.coverage
+htmlcov
