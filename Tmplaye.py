@@ -1,4 +1,5 @@
 import re
+import os
 
 
 class TmplayeSyntaxError(ValueError):
@@ -121,6 +122,14 @@ class Tmplaye(object):
                         )
                     )
                     code.indent()
+                elif words[0] == 'include':  # pragma: no cover
+                    if len(words) != 2:
+                        self._syntax_error("Don't understand include", token)
+                    file_name = words[1][1:-1].split("/")[-1]
+                    with open(file_name, 'r') as file_cursor:
+                        file_content = file_cursor.readlines()
+                    file_content = list(map(lambda x: repr(x), file_content))
+                    buffered.extend(file_content)
                 elif words[0].startswith("end"):
                     if len(words) != 1:
                         self._syntax_error("Don't understand end", token)
