@@ -17,6 +17,8 @@ templite = Tmplaye('''
          <p>You are interested in {{topic}}.</p>
      {% endfor %}
      
+	 {% include "more.html" %}
+
 	 {% if test %}
         <p>Test</p>
      {% elif aaa %}
@@ -51,6 +53,7 @@ Output:
 
          <p>You are interested in C++.</p>
 
+		 Something from more.
 
         <p>Test</p>
 

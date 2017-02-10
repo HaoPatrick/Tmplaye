@@ -1,6 +1,4 @@
 import re
-import os
-
 
 class TmplayeSyntaxError(ValueError):
     pass
@@ -144,7 +142,7 @@ class Tmplaye(object):
                     self._syntax_error("Don't understand tag", words[0])
             else:
                 if token:
-                    buffered.append(repr(token))
+                    buffered.append(repr(token.rstrip()))
         if ops_stack:
             self._syntax_error("Unmatched action tag", ops_stack[-1])
         flush_output()
