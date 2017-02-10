@@ -110,7 +110,7 @@ class TmplayeTest(TestCase):
         self.try_render(
             "Look: \n{% for n in nums %}\n{{n}}, \n{% endfor %}done.",
             {'nums': [1, 2, 3]},
-            "Look: \n\n1, \n\n2, \n\n3, \ndone."
+            "Look: \n1, \n2, \n3, \ndone."
         )
 
     def test_multiple_loops(self):
