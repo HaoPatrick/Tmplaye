@@ -159,6 +159,7 @@ class TmplayeTest(TestCase):
             {'ned': 1, 'ben': 1},
             "Hi, NEDBEN!"
         )
+
     def test_if_else(self):
         self.try_render(
             "Hi, {% if ned %}NED{% else %}BEN{% endif %}!",
@@ -170,6 +171,7 @@ class TmplayeTest(TestCase):
             {'ned': 0, 'ben': 1},
             "Hi, BEN!"
         )
+
     def test_if_elif_else(self):
         self.try_render(
             "Hi, {% if ned %}NED{% elif ben %}BEN{%else%}HAO{% endif %}!",
@@ -233,6 +235,24 @@ class TmplayeTest(TestCase):
             "@a0b0c0a1b1c1a2b2c2!"
         )
 
+    def test_complex_for(self):
+        self.try_render("{% for k ,v in w.items() %}<p>{{k}}+{{v}}</p>{% endfor %}",
+                        {'w': {'a': '1', 'b': '2'}},
+                        "<p>a+1</p><p>b+2</p>"
+                       )
+        self.try_render("{% for k, v in w.items() %}<p>{{k}}+{{v}}</p>{% endfor %}",
+                        {'w': {'a': '1', 'b': '2'}},
+                        "<p>a+1</p><p>b+2</p>"
+                       )
+        self.try_render("{% for k , v in w.items() %}<p>{{k}}+{{v}}</p>{% endfor %}",
+                        {'w': {'a': '1', 'b': '2'}},
+                        "<p>a+1</p><p>b+2</p>"
+                       )
+        self.try_render("{% for k,v in w.items() %}<p>{{k}}+{{v}}</p>{% endfor %}",
+                        {'w': {'a': '1', 'b': '2'}},
+                        "<p>a+1</p><p>b+2</p>"
+                       )
+
     def test_exception_during_evaluation(self):
         # TypeError: Couldn't evaluate {{ foo.bar.baz }}:
         # 'NoneType' object is unsubscriptable
@@ -258,6 +278,7 @@ class TmplayeTest(TestCase):
             self.try_render("Buh? {% if %}hi!{% endif %}")
         with self.assertSynErr("Don't understand if: '{% if this or that %}'"):
             self.try_render("Buh? {% if this or that %}hi!{% endif %}")
+
     def test_malformed_elif(self):
         with self.assertSynErr("Don't understand elif: '{% elif %}'"):
             self.try_render("Buh? {% if a %}hi!{% elif %}a{%endif%}")
@@ -277,6 +298,10 @@ class TmplayeTest(TestCase):
             self.try_render("Weird: {% for x from y %}loop{% endfor %}")
         # with self.assertSynErr("Don't understand for: '{% for x, y in z %}'"):
         #     self.try_render("Weird: {% for x, y in z %}loop{% endfor %}")
+
+    def test_malformed_complex_for(self):
+        with self.assertSynErr("Don't understand for: '{% for x, y, z from w %}'"):
+            self.try_render("Weird: {% for x, y, z from w %}loop{% endfor %}")
 
     def test_bad_nesting(self):
         with self.assertSynErr("Unmatched action tag: 'if'"):

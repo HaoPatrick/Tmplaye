@@ -154,9 +154,7 @@ class Tmplaye(object):
                                 words[1], words[3], self._expr_code(words[-1])
                             )
                         )
-                    else:
-                        self._syntax_error("Don't understand for", token)
-
+                    
                     code.indent()
                 elif words[0] == 'include':  # pragma: no cover
                     if len(words) != 2:
