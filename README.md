@@ -1,8 +1,8 @@
 Tmplaye
 ======
 
-[![Build Status](https://travis-ci.org/HaoPatrick/template_engine.svg?branch=master)](https://travis-ci.org/HaoPatrick/template_engine)
-[![Coverage](https://codecov.io/github/HaoPatrick/template_engine/coverage.png)](https://codecov.io/github/HaoPatrick/template_engine)
+[![Build Status](https://travis-ci.org/HaoPatrick/Tmplaye.svg?branch=master)](https://travis-ci.org/HaoPatrick/Tmplaye)
+[![Coverage](https://codecov.io/github/HaoPatrick/Tmplaye/coverage.png)](https://codecov.io/github/HaoPatrick/Tmplaye)
 
 Simple And Weak Template Engine
 
